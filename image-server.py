@@ -22,7 +22,7 @@ def threaded(client_socket, addr, queue):
       client_socket.send(str(len(stringData)).ljust(16).encode())
       client_socket.send(stringData)
       
-     except ConnenctionResetError as e:
+    except ConnenctionResetError as e:
       
       print('Disconnected by' +addr[0],':',addr[1])
       break
@@ -33,7 +33,7 @@ def threaded(client_socket, addr, queue):
 def webcam(queue):
   
   capture = cv2.VideoCapture(0)
-   while True:
+  while True:
       ret,frame = capture.read()
       
       if ret == False:
@@ -50,8 +50,8 @@ def webcam(queue):
       cv2.imshow('image',frame)
       
       key = cv2.waitKey(1)
-      if key ==27;
-      break
+      if key ==27:
+        break
       
 HOST = '127.0.0.1'
 PORT = 9999
@@ -63,7 +63,7 @@ server_socket.listen()
 
 print('server start')
 
-start_new_thread(webcam, (eclosure_queue,))
+start_new_thread(webcam, (enclosure_queue,))
 
 while True:
   
