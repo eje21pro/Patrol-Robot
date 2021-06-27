@@ -3,7 +3,7 @@ import numpy as np
 import cv2
 
 def recvall(sock, count):
-  buf=b"
+  buf=b''
   while count:
     newbuf=sock.recv(count)
     if not newbuf: return None
