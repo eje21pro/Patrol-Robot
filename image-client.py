@@ -33,4 +33,4 @@ while True:
   if key==27:
     break
     
-cleint_socket.close()
+client_socket.close()
