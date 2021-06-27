@@ -18,7 +18,7 @@ def threaded(client_socket, addr, queue):
         print('Disconnected by ' + addr[0],':', addr[1])
         break
         
-      stringDAta = queue.get()
+      stringData = queue.get()
       client_socket.send(str(len(stringData)).ljust(16).encode())
       client_socket.send(stringData)
       
