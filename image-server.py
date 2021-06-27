@@ -62,5 +62,15 @@ server_socket.bind((HOST,PORT))
 server_socket.listen()
 
 print('server start')
-      
+
+start_new_thread(webcam, (eclosure_queue,))
+
+while True:
+  
+  print('wait')
+
+  client_socket, addr=server_socket.accept()
+  start_new_thread(threaded, (client_socket, addr, enclosure_queue,))
+
+server_socket.close()
       
