@@ -2,13 +2,12 @@
 import cv2
 import socket
 import numpy as np
+import datetime
  
 ## TCP 사용
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 ## server ip, port
 s.connect(('192.168.0.171', 5353))
-
-
 
 CAM_ID = 0
 def capture(camid = CAM_ID):
@@ -22,14 +21,14 @@ def capture(camid = CAM_ID):
         print ('frame is not exist')
         return None
     
-    cv2.imwrite('../server/warning.jpg',frame, params=[cv2.IMWRITE_PNG_COMPRESSION,0])
+    basename="warning"
+    suffix = datetime.datetime.now().strftime("%y%m%d_%H%M%S")
+    filename = "_".join([basename, suffix])
+    
+    cv2.imwrite('../server/{}.jpg'.format(filename),frame, params=[cv2.IMWRITE_PNG_COMPRESSION,0])
     cam.release()
 
 capture()
-
- 
-
-
 
 ## webcam 이미지 capture
 cam = cv2.VideoCapture(0)
