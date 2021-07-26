@@ -1,0 +1,54 @@
+#include <Wire.h>
+#include <Adafruit_AMG88xx.h>
+
+char chars[] = { '.', '-', '-', '+', '*', 'i', 'j', '1', 'x', 'u', 's', '4', 'a', '3', 'd', 'P', '9', 'N', 'S', 'G', 'W', '@'};
+Adafruit_AMG88xx amg;
+
+float pixels[AMG88xx_PIXEL_ARRAY_SIZE];
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println(F("AMG88xx pixels"));
+
+  bool status;
+
+  // default settings
+  status = amg.begin();
+  if (!status) {
+    Serial.println("Could not find a valid AMG88xx sensor, check wiring!");
+    while (1);
+  }
+
+  Serial.println("-- Pixels Test --");
+
+  Serial.println();
+
+  delay(100); // let sensor boot up
+}
+
+
+void loop() {
+  //read all the pixels
+  amg.readPixels(pixels);
+  int temp;
+  int Tmin = 1000, Tmax = 0;
+  for (int i = 1; i <= AMG88xx_PIXEL_ARRAY_SIZE; i++) {
+    temp = pixels[i - 1] * 10;
+    Tmin = Tmin > temp ? temp : Tmin;
+    Tmax = Tmax < temp ? temp : Tmax;
+  }
+  Serial.print("[");
+  for (int i = AMG88xx_PIXEL_ARRAY_SIZE; i >= 1; i--) {
+    int temp = (pixels[i - 1] * 10);
+    int idx = map(temp, Tmin, Tmax, 0, 21);
+    
+    if ( i % 8 == 0 ) Serial.println();
+    Serial.print(chars[idx]);
+    Serial.print(", ");
+  }
+  Serial.println("]");
+  Serial.println();
+
+  //delay a second
+  delay(1000);
+}
